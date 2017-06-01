@@ -9,6 +9,7 @@ import createSourceConnector from './createSourceConnector';
 import isValidType from './utils/isValidType';
 
 export default function DragSource(type, spec, collect, options = {}) {
+
   checkDecoratorArguments('DragSource', 'type, spec, collect[, options]', ...arguments); // eslint-disable-line prefer-rest-params
   let getType = type;
   if (typeof type !== 'function') {
@@ -22,14 +23,19 @@ export default function DragSource(type, spec, collect, options = {}) {
     );
     getType = () => type;
   }
-  invariant(
-    isPlainObject(spec),
-    'Expected "spec" provided as the second argument to DragSource to be ' +
-    'a plain object. Instead, received %s. ' +
-    'Read more: http://react-dnd.github.io/react-dnd/docs-drag-source.html',
-    spec,
-  );
-  const createSource = createSourceFactory(spec);
+  let getSpec = spec;
+  if( typeof spec !== 'function' ) {
+    invariant(
+      isPlainObject(spec),
+	  'Expected "spec" provided as the second argument to DragSource to be ' +
+	  'a plain object. Instead, received %s. ' +
+	  'Read more: http://react-dnd.github.io/react-dnd/docs-drag-source.html',
+	  spec,
+    );
+    getSpec = () => spec;
+  }
+
+  const createSource = createSourceFactory(getSpec());
   invariant(
     typeof collect === 'function',
     'Expected "collect" provided as the third argument to DragSource to be ' +
@@ -59,6 +65,7 @@ export default function DragSource(type, spec, collect, options = {}) {
       getType,
       collect,
       options,
+	  getSpec
     });
   };
 }

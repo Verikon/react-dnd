@@ -17,6 +17,7 @@ export default function decorateHandler({
   getType,
   collect,
   options,
+  getSpec
 }) {
   const { arePropsEqual = shallowEqualScalar } = options;
   const displayName =
@@ -48,6 +49,7 @@ export default function decorateHandler({
 
     constructor(props, context) {
       super(props, context);
+	  console.log( "PROPZ", props );
       this.handleChange = this.handleChange.bind(this);
       this.handleChildRef = this.handleChildRef.bind(this);
 
