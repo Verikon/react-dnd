@@ -35,7 +35,7 @@ export default function DragSource(type, spec, collect, options = {}) {
     getSpec = () => spec;
   }
 
-  const createSource = createSourceFactory(getSpec());
+  const createSource = createSourceFactory;
   invariant(
     typeof collect === 'function',
     'Expected "collect" provided as the third argument to DragSource to be ' +

@@ -49,7 +49,6 @@ export default function decorateHandler({
 
     constructor(props, context) {
       super(props, context);
-	  console.log( "PROPZ", props );
       this.handleChange = this.handleChange.bind(this);
       this.handleChildRef = this.handleChildRef.bind(this);
 
@@ -65,8 +64,8 @@ export default function decorateHandler({
       this.manager = this.context.dragDropManager;
       this.handlerMonitor = createMonitor(this.manager);
       this.handlerConnector = createConnector(this.manager.getBackend());
-      this.handler = createHandler(this.handlerMonitor);
-
+	  createHandler = createHandler( getSpec(props) );
+	  this.handler = createHandler(this.handlerMonitor);
       this.disposable = new SerialDisposable();
       this.receiveProps(props);
       this.state = this.getCurrentState();
